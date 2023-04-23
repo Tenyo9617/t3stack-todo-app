@@ -1,5 +1,19 @@
 version: "3.8"
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    command: "yarn dev"
+    networks:
+      - todo-app-2
+    depends_on:
+      - dev-postgres
+
   dev-postgres:
     image: postgres:14.4-alpine
     ports:
@@ -10,6 +24,7 @@ services:
       POSTGRES_DB: udemy
     restart: always
     networks:
-      - lesson
+      - todo-app-2
+    
 networks:
-  lesson:
+  todo-app-2:
